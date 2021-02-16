@@ -32,25 +32,25 @@
 						<!-- Contact -->
 							<article id="contact" class="panel">
 								<header>
-									<h2>Contact Me</h2>
+									<h2>글을 써보세요</h2>
 								</header>
-								<form action="#" method="post">
+								<form action="writePost" method="get">
 									<div>
 										<div class="row">
 											<div class="col-6 col-12-medium">
-												<input type="text" name="name" placeholder="Name" />
+												<input type="text" name="name" placeholder="이름" />
 											</div>
 											<div class="col-6 col-12-medium">
-												<input type="text" name="email" placeholder="Email" />
+												<input type="text" name="password" placeholder="비밀번호" />
 											</div>
 											<div class="col-12">
-												<input type="text" name="subject" placeholder="Subject" />
+												<input type="text" name="title" placeholder="제목" />
 											</div>
 											<div class="col-12">
-												<textarea name="message" placeholder="Message" rows="6"></textarea>
+												<textarea name="content" placeholder="내용을 쓰세요" rows="6"></textarea>
 											</div>
 											<div class="col-12">
-												<input type="submit" value="Send Message" />
+												<input type="submit" value="글쓰기 완료" />
 											</div>
 										</div>
 									</div>

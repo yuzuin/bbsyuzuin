@@ -4,6 +4,8 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -38,6 +40,12 @@ public class HomeController {
 	
 	@RequestMapping(value = "write", method = RequestMethod.GET)
 	public String writeForm() {
+		return "write";
+	}
+	
+	/* 글쓰기 버튼 눌렀을시 */
+	@RequestMapping(value = "writePost", method = RequestMethod.GET)
+	public String writePost(HttpServletRequest h,Model m) {
 		return "write";
 	}
 	
