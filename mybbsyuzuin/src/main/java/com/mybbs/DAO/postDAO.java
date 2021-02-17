@@ -149,4 +149,28 @@ public class postDAO {
 		}
 		System.out.println(rs+"건 삭제 완료");
 	}
+	
+	/* 글 수정 */
+	public void modPost(postDTO p) {
+		int rs=-1;
+		if(getConn()!=null) {
+			try {
+				String sql = "update bbsyuzuin set title=?,name=?,content=? where num=?";
+				pstmt=conn.prepareStatement(sql);
+				pstmt.setString(1, p.getTitle());
+				pstmt.setString(2, p.getName());
+				pstmt.setString(3, p.getContent());
+				pstmt.setInt(4, p.getNum());
+				rs=pstmt.executeUpdate();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}finally {
+				if(conn!=null) conn=null;
+				if(pstmt!=null) pstmt=null;
+			}
+		}
+		if(rs==1) {
+			System.out.println(p.getNum()+"번 글 수정 완료");
+		}
+	}
 }

@@ -76,4 +76,18 @@ public class HomeController {
 		postdao.delPost(dnum);
 		return "redirect:list";
 	}
+	
+	/* 글 수정 클릭 */
+	@RequestMapping(value = "modPost", method = RequestMethod.GET)
+	public String modPostView(@RequestParam("modNum") int mnum,Model m) {
+		m.addAttribute("post",postdao.selectPost(mnum));
+		return "mod";
+	}
+	
+	/* 글 수정 완료 버튼 클릭 */
+	@RequestMapping(value = "modPostOK", method = RequestMethod.GET)
+	public String modPostOK(postDTO post) {
+		postdao.modPost(post);
+		return "redirect:list";
+	}
 }

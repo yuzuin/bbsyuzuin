@@ -122,7 +122,7 @@
 						<td class="tg-mjko"><c:out value="${temp.name }"/></td>
 						<td class="tg-mjko"><c:out value="${temp.writeDate }"/></td>
 						<td class="tg-mjko"><c:out value="${temp.hits }"/></td>
-						<td class="tg-mjko">수정</td>
+						<td class="tg-mjko"><a href="modPost?modNum=${temp.num }">수정</a></td>
 						<td class="tg-mjko"><a href="delPost?delNum=${temp.num }">삭제</a></td>
 					</tr>
 					</c:forEach>
