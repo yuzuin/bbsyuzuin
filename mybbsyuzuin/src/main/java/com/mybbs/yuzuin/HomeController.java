@@ -13,6 +13,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.mybbs.DAO.postDAO;
+import com.mybbs.DTO.postDTO;
+
 /**
  * Handles requests for the application home page.
  */
@@ -20,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class HomeController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
-	
+	private postDAO postdao = new postDAO();
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
@@ -38,6 +41,7 @@ public class HomeController {
 		return "list";
 	}
 	
+	/* 글 쓰기 폼 */
 	@RequestMapping(value = "write", method = RequestMethod.GET)
 	public String writeForm() {
 		return "write";
@@ -45,10 +49,19 @@ public class HomeController {
 	
 	/* 글쓰기 버튼 눌렀을시 */
 	@RequestMapping(value = "writePost", method = RequestMethod.GET)
-	public String writePost(HttpServletRequest h,Model m) {
-		return "write";
+	public String writePost(HttpServletRequest h,Model m, postDTO dto) {
+		postdao.insertPost(dto);
+		return "redirect:list";	//	리다이렉트로 
 	}
 	
+	/* 글 리스트 보기 */
+	@RequestMapping(value = "list", method = RequestMethod.GET)
+	public String viewList(Model m) {
+		m.addAttribute("postList",postdao.allPost());
+		return "list";
+	}
+	
+	/* 글 상세보기 */
 	@RequestMapping(value = "viewPost", method = RequestMethod.GET)
 	public String viewPost() {
 		return "viewPost";

@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@page import="java.util.ArrayList"%>
+
 <!DOCTYPE HTML>
 <!--
 	Astral by HTML5 UP
@@ -8,7 +11,7 @@
 -->
 <html>
 <head>
-<title>Astral by HTML5 UP</title>
+<title>소식을 나눠보세요~</title>
 <meta charset="utf-8" />
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, user-scalable=no" />
@@ -111,15 +114,18 @@
 					</tr>
 				</thead>
 				<tbody>
+				<!-- 테이블 반복 -->
+					<c:forEach var="temp" items="${postList }">
 					<tr>
-						<td class="tg-mjko"></td>
-						<td class="tg-cz4q"></td>
-						<td class="tg-mjko"></td>
-						<td class="tg-mjko"></td>
-						<td class="tg-mjko"></td>
-						<td class="tg-mjko"></td>
-						<td class="tg-mjko"></td>
+						<td class="tg-mjko"><c:out value="${temp.num }"/></td>
+						<td class="tg-cz4q"><c:out value="${temp.title }"/></td>
+						<td class="tg-mjko"><c:out value="${temp.name }"/></td>
+						<td class="tg-mjko"><c:out value="${temp.writeDate }"/></td>
+						<td class="tg-mjko"><c:out value="${temp.hits }"/></td>
+						<td class="tg-mjko">수정</td>
+						<td class="tg-mjko">삭제</td>
 					</tr>
+					</c:forEach>
 				</tbody>
 			</table>
 		</div>
