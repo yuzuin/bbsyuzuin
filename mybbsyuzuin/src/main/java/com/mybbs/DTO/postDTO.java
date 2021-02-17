@@ -50,6 +50,7 @@ public class postDTO {
 	public void setHits(int hits) {
 		this.hits = hits;
 	}
-	
-	
+	public void increaseHits() {
+		hits++;
+	}
 }

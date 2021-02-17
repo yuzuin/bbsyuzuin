@@ -1,6 +1,7 @@
 package com.mybbs.yuzuin;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.mybbs.DAO.postDAO;
 import com.mybbs.DTO.postDTO;
@@ -63,7 +65,15 @@ public class HomeController {
 	
 	/* 글 상세보기 */
 	@RequestMapping(value = "viewPost", method = RequestMethod.GET)
-	public String viewPost() {
+	public String viewPost(@RequestParam("viewNum") int vnum,Model m) {
+		m.addAttribute("post",postdao.selectPost(vnum));
 		return "viewPost";
+	}
+	
+	/* 글 삭제 */
+	@RequestMapping(value = "delPost", method = RequestMethod.GET)
+	public String deletePost(@RequestParam("delNum") int dnum) {
+		postdao.delPost(dnum);
+		return "redirect:list";
 	}
 }

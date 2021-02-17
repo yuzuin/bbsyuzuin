@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import com.mybbs.DTO.postDTO;
 
@@ -42,6 +43,7 @@ public class postDAO {
 		return conn;
 	}
 	
+	/* 글 쓰기 */
 	public void insertPost(postDTO p) {
 		int rs=-1;
 		if(getConn()!=null) {
@@ -62,6 +64,8 @@ public class postDAO {
 		}
 		System.out.println("포스트 "+rs+"건 입력 완료");
 	}
+	
+	/* 글 전체 보기 */
 	public ArrayList<postDTO> allPost(){
 		ArrayList<postDTO> allPost = null;
 		if(getConn()!=null) {
@@ -90,6 +94,59 @@ public class postDAO {
 			}
 		}
 		System.out.println("select allPost 완료");
+		Collections.reverse(allPost);	//	최신순으로 보여주기 위해 역순 정렬
 		return allPost;
+	}
+	
+	/* 글 상세 보기 */
+	public postDTO selectPost(int vnum) {
+		postDTO p = new postDTO();
+		if(getConn()!=null) {
+			try {
+				String sql = "select * from bbsyuzuin where num=?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, vnum);
+				rs = pstmt.executeQuery();
+				if(rs.next()) {
+					p.setNum(rs.getInt("num"));
+					p.setName(rs.getString("name"));
+					p.setPassword(rs.getString("password"));
+					p.setTitle(rs.getString("title"));
+					p.setContent(rs.getString("content"));
+					p.setWriteDate(rs.getString("writeDate"));
+					p.setHits(rs.getInt("hits"));
+				}
+				/* 클릭시 조회수 +1 */
+				sql = "update bbsyuzuin set hits=hits+1 where num=?";
+				pstmt=conn.prepareStatement(sql);
+				pstmt.setInt(1, vnum);
+				pstmt.executeUpdate();
+				p.increaseHits();
+			}catch(Exception e) {
+				e.printStackTrace();
+			}finally {
+				if(conn!=null) conn=null;
+				if(pstmt!=null) pstmt=null;
+			}
+		}
+		return p;
+	}
+	/* 글 삭제 */
+	public void delPost(int dnum) {
+		int rs = -1;
+		if(getConn()!=null) {
+			try {
+				String sql = "delete from bbsyuzuin where num=?";
+				pstmt=conn.prepareStatement(sql);
+				pstmt.setInt(1, dnum);
+				rs = pstmt.executeUpdate();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}finally {
+				if(conn!=null) conn=null;
+				if(pstmt!=null) pstmt=null;
+			}
+		}
+		System.out.println(rs+"건 삭제 완료");
 	}
 }

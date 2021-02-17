@@ -95,12 +95,12 @@
 			<table class="tg" style="table-layout: fixed; width: 844px">
 				<colgroup>
 					<col style="width: 58px">
-					<col style="width: 347px">
+					<col style="width: 335px">
 					<col style="width: 144px">
 					<col style="width: 164px">
 					<col style="width: 53px">
-					<col style="width: 39px">
-					<col style="width: 39px">
+					<col style="width: 44px">
+					<col style="width: 44px">
 				</colgroup>
 				<thead>
 					<tr>
@@ -118,12 +118,12 @@
 					<c:forEach var="temp" items="${postList }">
 					<tr>
 						<td class="tg-mjko"><c:out value="${temp.num }"/></td>
-						<td class="tg-cz4q"><c:out value="${temp.title }"/></td>
+						<td class="tg-cz4q">　<a href="viewPost?viewNum=${temp.num }"><c:out value="${temp.title }"/></a></td>
 						<td class="tg-mjko"><c:out value="${temp.name }"/></td>
 						<td class="tg-mjko"><c:out value="${temp.writeDate }"/></td>
 						<td class="tg-mjko"><c:out value="${temp.hits }"/></td>
 						<td class="tg-mjko">수정</td>
-						<td class="tg-mjko">삭제</td>
+						<td class="tg-mjko"><a href="delPost?delNum=${temp.num }">삭제</a></td>
 					</tr>
 					</c:forEach>
 				</tbody>
