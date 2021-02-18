@@ -114,17 +114,18 @@
 					</tr>
 				</thead>
 				<tbody>
-				<!-- 테이블 반복 -->
+					<!-- 테이블 반복 -->
 					<c:forEach var="temp" items="${postList }">
-					<tr>
-						<td class="tg-mjko"><c:out value="${temp.num }"/></td>
-						<td class="tg-cz4q">　<a href="viewPost?viewNum=${temp.num }"><c:out value="${temp.title }"/></a></td>
-						<td class="tg-mjko"><c:out value="${temp.name }"/></td>
-						<td class="tg-mjko"><c:out value="${temp.writeDate }"/></td>
-						<td class="tg-mjko"><c:out value="${temp.hits }"/></td>
-						<td class="tg-mjko"><a href="modPost?modNum=${temp.num }">수정</a></td>
-						<td class="tg-mjko"><a href="delPost?delNum=${temp.num }">삭제</a></td>
-					</tr>
+						<tr>
+							<td class="tg-mjko"><c:out value="${temp.num }" /></td>
+							<td class="tg-cz4q"><a href="viewPost?viewNum=${temp.num }"><c:out
+										value="${temp.title }" /></a></td>
+							<td class="tg-mjko"><c:out value="${temp.name }" /></td>
+							<td class="tg-mjko"><c:out value="${temp.writeDate }" /></td>
+							<td class="tg-mjko"><c:out value="${temp.hits }" /></td>
+							<td class="tg-mjko"><a href="modPost?modNum=${temp.num }">수정</a></td>
+							<td class="tg-mjko"><a href="delPost?delNum=${temp.num }">삭제</a></td>
+						</tr>
 					</c:forEach>
 				</tbody>
 			</table>

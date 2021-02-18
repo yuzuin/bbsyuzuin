@@ -1,7 +1,6 @@
 package com.mybbs.yuzuin;
 
 import java.text.DateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
@@ -15,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.mybbs.DAO.commentDAO;
 import com.mybbs.DAO.postDAO;
+import com.mybbs.DTO.commentDTO;
 import com.mybbs.DTO.postDTO;
 
 /**
@@ -26,6 +27,8 @@ public class HomeController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	private postDAO postdao = new postDAO();
+	private commentDAO codao = new commentDAO();
+	
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
@@ -40,7 +43,7 @@ public class HomeController {
 		
 		model.addAttribute("serverTime", formattedDate );
 		
-		return "list";
+		return "redirect:list";
 	}
 	
 	/* 글 쓰기 폼 */
@@ -63,10 +66,11 @@ public class HomeController {
 		return "list";
 	}
 	
-	/* 글 상세보기 */
+	/* 글 상세보기 + 댓글*/
 	@RequestMapping(value = "viewPost", method = RequestMethod.GET)
 	public String viewPost(@RequestParam("viewNum") int vnum,Model m) {
 		m.addAttribute("post",postdao.selectPost(vnum));
+		m.addAttribute("commentList",codao.allComment(vnum));
 		return "viewPost";
 	}
 	
@@ -90,4 +94,13 @@ public class HomeController {
 		postdao.modPost(post);
 		return "redirect:list";
 	}
+	
+	/* 댓글 쓰기 */
+	@RequestMapping(value = "writeComment", method = RequestMethod.GET)
+	public String writeComment(commentDTO dto) {
+		codao.insertComment(dto);
+		return "redirect:list";
+	}
+	
+	
 }
