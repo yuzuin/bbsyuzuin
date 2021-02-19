@@ -67,7 +67,7 @@ public class commentDAO {
 	
 	/* 댓글 전제 보기 */
 	public ArrayList<commentDTO> allComment(int vnum){
-		ArrayList<commentDTO> allComment = new ArrayList<>();
+		ArrayList<commentDTO> allComment = new ArrayList<commentDTO>();
 		if(getConn()!=null) {
 			try {
 				String sql = "select * from bbsComment where postNum=?";

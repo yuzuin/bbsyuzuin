@@ -70,7 +70,7 @@ public class postDAO {
 		ArrayList<postDTO> allPost = null;
 		if(getConn()!=null) {
 			try {
-				allPost = new ArrayList<>();
+				allPost = new ArrayList<postDTO>();
 				String sql = "select * from bbsyuzuin order by num desc limit ?,?";
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setInt(1, point);

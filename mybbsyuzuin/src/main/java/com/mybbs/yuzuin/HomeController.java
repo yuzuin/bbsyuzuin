@@ -53,8 +53,17 @@ public class HomeController {
 	
 	/* 글 쓰기 폼 */
 	@RequestMapping(value = "write", method = RequestMethod.GET)
-	public String writeForm() {
-		return "write";
+	public String writeForm(HttpServletRequest request) {
+		//로그인 검사
+		HttpSession session = request.getSession();
+		String nowUser = (String)session.getAttribute("userid");
+		if(nowUser!=null) {
+			System.out.println("나우유저 !=널");
+			return "write";
+		}else {
+			System.out.println("나우유저 널");
+			return "redirect:login";
+		}
 	}
 	
 	/* 글쓰기 버튼 눌렀을시 */
@@ -110,16 +119,24 @@ public class HomeController {
 	
 	/* 글 수정 완료 버튼 클릭 */
 	@RequestMapping(value = "modPostOK", method = RequestMethod.GET)
-	public String modPostOK(postDTO post) {
+	public String modPostOK(postDTO post,Model m) {
 		postdao.modPost(post);
-		return "redirect:list";
+		
+		m.addAttribute("post",postdao.selectPost(post.getNum()));
+		m.addAttribute("commentList",codao.allComment(post.getNum()));
+		return "viewPost";
+//		return "redirect:list";
 	}
 	
 	/* 댓글 쓰기 */
 	@RequestMapping(value = "writeComment", method = RequestMethod.GET)
-	public String writeComment(commentDTO dto) {
+	public String writeComment(commentDTO dto,Model m) {
 		codao.insertComment(dto);
-		return "redirect:list";
+		
+		m.addAttribute("post",postdao.selectPost(dto.getPostNum()));
+		m.addAttribute("commentList",codao.allComment(dto.getPostNum()));
+		return "viewPost";
+//		return "redirect:list";
 	}
 	
 	/* 로그인 화면 */
