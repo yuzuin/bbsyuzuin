@@ -18,6 +18,7 @@ import com.mybbs.DAO.commentDAO;
 import com.mybbs.DAO.postDAO;
 import com.mybbs.DTO.commentDTO;
 import com.mybbs.DTO.postDTO;
+import com.mybbs.util.PageNumber;
 
 /**
  * Handles requests for the application home page.
@@ -59,10 +60,23 @@ public class HomeController {
 		return "redirect:list";	//	리다이렉트로 
 	}
 	
-	/* 글 리스트 보기 */
+	/* 글 리스트 보기 + 페이징*/
 	@RequestMapping(value = "list", method = RequestMethod.GET)
-	public String viewList(Model m) {
-		m.addAttribute("postList",postdao.allPost());
+	public String viewList(Model m, HttpServletRequest request) {
+		
+		//	page
+		int nowPage=1;
+		if(request.getParameter("page")!=null) {	//	클라이언트가 클릭하면 파라미터 받음
+			nowPage=Integer.valueOf(request.getParameter("page"));
+		}
+		int pageTotal = postdao.allcount();
+		PageNumber pagemaker = new PageNumber();
+		pagemaker.setPage(nowPage);
+		pagemaker.setCount(pageTotal);
+		
+		m.addAttribute("pageMaker",pagemaker);
+//		m.addAttribute("nowUser",nowUser);
+		m.addAttribute("postList",postdao.allPost(pagemaker.getNowPageStart(),pagemaker.getPageCnt()));
 		return "list";
 	}
 	

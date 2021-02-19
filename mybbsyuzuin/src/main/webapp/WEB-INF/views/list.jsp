@@ -128,7 +128,41 @@
 						</tr>
 					</c:forEach>
 				</tbody>
+				
+				      <!--  page number 표시 -->
+                    <tr>
+						<td colspan=5 align=center>
+							<hr>
+							<ul class="pageUL">
+
+								<c:if test="${pageMaker.prev > 0 }">
+									<a href='list?page=${pageMaker.prev}'> [ 이전 ] </a>
+								</c:if>
+								
+								<c:forEach begin="${pageMaker.start }" end="${pageMaker.end}"
+									var="idx">
+									<!-- 			<li class='<c:out value="${idx == pageMaker.page?'current':''}"/>'>   -->
+									<a href='list?page=${idx}'> 
+									    <c:choose>
+											<c:when test="${pageMaker.page eq idx}">
+												<b>[<font color=red size=3> ${idx} </font> ]
+												</b>
+											</c:when>
+											<c:otherwise>[ ${idx} ] </c:otherwise>
+										</c:choose>
+									</a>
+								</c:forEach>
+								
+								<c:if test="${pageMaker.next > 0 }">
+									<a href='list?page=${pageMaker.next}'> [ 다음 ] </a>
+								</c:if>
+
+							</ul>
+						</td>
+					</tr>
 			</table>
+			
+			
 		</div>
 
 		<!-- Footer -->

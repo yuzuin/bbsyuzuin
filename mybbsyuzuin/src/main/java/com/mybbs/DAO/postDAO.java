@@ -66,14 +66,16 @@ public class postDAO {
 	}
 	
 	/* 글 전체 보기 */
-	public ArrayList<postDTO> allPost(){
+	public ArrayList<postDTO> allPost(int point, int size){
 		ArrayList<postDTO> allPost = null;
 		if(getConn()!=null) {
 			try {
 				allPost = new ArrayList<>();
-				String sql = "select * from bbsyuzuin";
-				stmt = conn.createStatement();
-				rs = stmt.executeQuery(sql);
+				String sql = "select * from bbsyuzuin order by num desc limit ?,?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, point);
+				pstmt.setInt(2, size);
+				rs = pstmt.executeQuery();
 				
 				while(rs.next()) {
 					postDTO p = new postDTO();
@@ -94,7 +96,7 @@ public class postDAO {
 			}
 		}
 		System.out.println("select allPost 완료");
-		Collections.reverse(allPost);	//	최신순으로 보여주기 위해 역순 정렬
+//		Collections.reverse(allPost);	//	최신순으로 보여주기 위해 역순 정렬 / 페이징으로 필요가 없어짐
 		return allPost;
 	}
 	
@@ -173,4 +175,26 @@ public class postDAO {
 			System.out.println(p.getNum()+"번 글 수정 완료");
 		}
 	}
+	
+	/* 페이징에 필요한 allcount */
+	public int allcount(){
+		int cnt = 0;
+		if(getConn()!=null) {
+			try {
+				String sql = "select count(*) as total from bbsyuzuin";
+				stmt = conn.createStatement();
+				rs = stmt.executeQuery(sql);
+				if(rs.next()) {
+					cnt = rs.getInt("total");
+				}
+			}catch(Exception e){
+				e.printStackTrace();
+			}finally {
+				if(conn!=null) conn=null;
+				if(pstmt!=null) pstmt=null;
+			}
+		}
+		return cnt;
+	}
+	
 }
