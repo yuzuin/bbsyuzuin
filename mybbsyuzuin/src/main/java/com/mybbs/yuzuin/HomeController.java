@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.mybbs.DAO.commentDAO;
 import com.mybbs.DAO.memberDAO;
 import com.mybbs.DAO.postDAO;
+import com.mybbs.DAOIF.IF_BBSDAO;
 import com.mybbs.DTO.commentDTO;
 import com.mybbs.DTO.memberDTO;
 import com.mybbs.DTO.postDTO;
@@ -34,9 +36,13 @@ public class HomeController {
 	private commentDAO codao = new commentDAO();
 	private memberDAO memdao = new memberDAO();
 	
-	/**
-	 * Simply selects the home view to render by returning its name.
-	 */
+	@Inject
+	private IF_BBSDAO bbsdao2;  // 인터페이스는 객체를 만들 수 없다. 인터페이스를 구현 받은 객체만 생성이 가능. mybatis 에서는 인터페이스를
+    							// 한개의 클래스만 구성할 수 있다.
+    							// @Inject는 컨테이너에서 객체를 주입받는다. 그러므로 IF_BBSDAO 객체가 컨테이너에 있어야 한다.
+    							// root-context.xml을 수정해야 합니다.
+    							// <context:component-scan base-package="com.human.DAOIF"></context:component-scan>
+	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
 		logger.info("Welcome home! The client locale is {}.", locale);
@@ -84,14 +90,15 @@ public class HomeController {
 		if(request.getParameter("page")!=null) {	//	클라이언트가 클릭하면 파라미터 받음
 			nowPage=Integer.valueOf(request.getParameter("page"));
 		}
-		int pageTotal = postdao.allcount();
+		int pageTotal = postdao.allcount();	//	기존 dao 왜냐하면 현재 mybatis에는 select count(*) from ~ 가 없음 추후 추가
 		PageNumber pagemaker = new PageNumber();
 		pagemaker.setPage(nowPage);
 		pagemaker.setCount(pageTotal);
 		
 		m.addAttribute("pageMaker",pagemaker);
 		m.addAttribute("nowUser",nowUser);
-		m.addAttribute("postList",postdao.allPost(pagemaker.getNowPageStart(),pagemaker.getPageCnt()));
+		m.addAttribute("postList",bbsdao2.selectAll(pagemaker));
+//		m.addAttribute("postList",postdao.allPost(pagemaker.getNowPageStart(),pagemaker.getPageCnt()));
 		return "list";
 	}
 	

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration 
+    PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-config.dtd">
+    <configuration>
+    
+        <typeAliases>
+        	<!-- com.human.DTO.BBSDTO를 BBSDTO 라고 부르겠음. -->
+            <typeAlias type="com.mybbs.DTO.postDTO" alias="postDTO"/>
+        </typeAliases>
+        
+    </configuration>
