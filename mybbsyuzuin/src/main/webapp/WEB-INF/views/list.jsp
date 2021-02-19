@@ -92,6 +92,10 @@
 	vertical-align: middle
 }
 </style>
+			<!--  jstl if문으로 nowUser 변수체크 -->
+			<c:if test="${nowUser != null }">
+							접속자 : ${nowUser }<a href="logout">[로그아웃]</a>
+			</c:if>
 			<table class="tg" style="table-layout: fixed; width: 844px">
 				<colgroup>
 					<col style="width: 58px">
@@ -128,41 +132,43 @@
 						</tr>
 					</c:forEach>
 				</tbody>
-				
-				      <!--  page number 표시 -->
-                    <tr>
-						<td colspan=5 align=center>
-							<hr>
-							<ul class="pageUL">
 
-								<c:if test="${pageMaker.prev > 0 }">
-									<a href='list?page=${pageMaker.prev}'> [ 이전 ] </a>
-								</c:if>
-								
-								<c:forEach begin="${pageMaker.start }" end="${pageMaker.end}"
-									var="idx">
-									<!-- 			<li class='<c:out value="${idx == pageMaker.page?'current':''}"/>'>   -->
-									<a href='list?page=${idx}'> 
-									    <c:choose>
-											<c:when test="${pageMaker.page eq idx}">
-												<b>[<font color=red size=3> ${idx} </font> ]
-												</b>
-											</c:when>
-											<c:otherwise>[ ${idx} ] </c:otherwise>
-										</c:choose>
-									</a>
-								</c:forEach>
-								
-								<c:if test="${pageMaker.next > 0 }">
-									<a href='list?page=${pageMaker.next}'> [ 다음 ] </a>
-								</c:if>
+				<!--  page number 표시 -->
+				<tr>
+					<td colspan=5 align=center>
+						<hr>
+						<ul class="pageUL">
 
-							</ul>
-						</td>
-					</tr>
+							<c:if test="${pageMaker.prev > 0 }">
+								<a href='list?page=${pageMaker.prev}'> [ 이전 ] </a>
+							</c:if>
+
+							<c:forEach begin="${pageMaker.start }" end="${pageMaker.end}"
+								var="idx">
+								<!-- 			<li class='<c:out value="${idx == pageMaker.page?'current':''}"/>'>   -->
+								<a href='list?page=${idx}'> <c:choose>
+										<c:when test="${pageMaker.page eq idx}">
+											<b>[<font color=red size=3> ${idx} </font> ]
+											</b>
+										</c:when>
+										<c:otherwise>[ ${idx} ] </c:otherwise>
+									</c:choose>
+								</a>
+							</c:forEach>
+
+							<c:if test="${pageMaker.next > 0 }">
+								<a href='list?page=${pageMaker.next}'> [ 다음 ] </a>
+							</c:if>
+
+						</ul>
+					</td>
+				</tr>
 			</table>
-			
-			
+			<!--  jstl if문으로 nowUser 변수체크 -->
+			<c:if test="${nowUser != null }">
+				<a href="write">[글쓰기]</a>
+			</c:if>
+
 		</div>
 
 		<!-- Footer -->

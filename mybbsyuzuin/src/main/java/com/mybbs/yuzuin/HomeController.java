@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.mybbs.DAO.commentDAO;
+import com.mybbs.DAO.memberDAO;
 import com.mybbs.DAO.postDAO;
 import com.mybbs.DTO.commentDTO;
+import com.mybbs.DTO.memberDTO;
 import com.mybbs.DTO.postDTO;
 import com.mybbs.util.PageNumber;
 
@@ -29,6 +32,7 @@ public class HomeController {
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	private postDAO postdao = new postDAO();
 	private commentDAO codao = new commentDAO();
+	private memberDAO memdao = new memberDAO();
 	
 	/**
 	 * Simply selects the home view to render by returning its name.
@@ -63,7 +67,9 @@ public class HomeController {
 	/* 글 리스트 보기 + 페이징*/
 	@RequestMapping(value = "list", method = RequestMethod.GET)
 	public String viewList(Model m, HttpServletRequest request) {
-		
+		//	로그인 검사. 세션을 찾아본다
+		HttpSession session = request.getSession();
+		String nowUser = (String)session.getAttribute("userid");
 		//	page
 		int nowPage=1;
 		if(request.getParameter("page")!=null) {	//	클라이언트가 클릭하면 파라미터 받음
@@ -75,7 +81,7 @@ public class HomeController {
 		pagemaker.setCount(pageTotal);
 		
 		m.addAttribute("pageMaker",pagemaker);
-//		m.addAttribute("nowUser",nowUser);
+		m.addAttribute("nowUser",nowUser);
 		m.addAttribute("postList",postdao.allPost(pagemaker.getNowPageStart(),pagemaker.getPageCnt()));
 		return "list";
 	}
@@ -116,5 +122,32 @@ public class HomeController {
 		return "redirect:list";
 	}
 	
+	/* 로그인 화면 */
+	@RequestMapping(value = "login", method = RequestMethod.GET)
+	public String login() {
+		return "login";
+	}
 	
+	/* 로그인 폼 제출 */
+	@RequestMapping(value = "enter", method = RequestMethod.GET)
+	public String goLogin(memberDTO dto, HttpServletRequest request) {
+		int ok = memdao.login(dto);
+		if(ok==1) {
+			//	세션 등록
+			HttpSession session = request.getSession();
+			session.setAttribute("userid", dto.getId()); //	세션에 "userid"로 id 넘겨줌
+			System.out.println(dto.getName()+"님 로그인 완료");
+			return "redirect:list";
+		}else {
+			return "login";
+		}
+	}
+	
+	/* 로그아웃 */
+	@RequestMapping(value = "logout", method = RequestMethod.GET)
+	public String logout(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		session.invalidate();	//	현재 쿠키값으로 설정되어있는 모든 세션 비움
+		return "login";
+	}
 }
