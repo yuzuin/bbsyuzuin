@@ -18,5 +18,11 @@ public interface IF_BBSDAO {
 	public postDTO selectOne(int num);
 	//	글쓰기
 	public int insertPost(postDTO postDTO);
+	//	글 all count
+	public int allCount();
+	//	글삭제
+	public void delPost(int num);
+	//	글수정
+	public void modPost(postDTO postDTO);
 	
 }

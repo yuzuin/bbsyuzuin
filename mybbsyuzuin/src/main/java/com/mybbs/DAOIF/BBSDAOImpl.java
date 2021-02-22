@@ -46,4 +46,20 @@ public class BBSDAOImpl implements IF_BBSDAO{
 		return ok;
 	}
 
+	@Override
+	public int allCount() {
+		//	파라미터가 없을 시, selectOne을 사용
+		return sqlSession.selectOne(mapperQuery+".allCount");
+	}
+
+	@Override
+	public void delPost(int num) {
+		sqlSession.delete(mapperQuery+".delPost",num);
+	}
+
+	@Override
+	public void modPost(postDTO postDTO) {
+		sqlSession.update(mapperQuery+".modPost",postDTO);
+	}
+
 }

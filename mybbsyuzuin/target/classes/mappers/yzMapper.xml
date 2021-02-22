@@ -25,5 +25,18 @@
 	<select id="selectCommentAll" resultType="comment">
 		select * from bbsComment where postNum= #{postNum}
 	</select>
+	
+	<!-- 글 수정 -->
+	<update id="modPost">	<!--update는 resultType을 못쓰나봄...?-->
+	update bbsyuzuin set title=#{title},name=#{name},content=#{content} where num = #{num}
+	</update>
+	<!-- post allCount -->
+	<select id="allCount" resultType="int">
+		select count(*) as total from bbsyuzuin
+	</select>
+	<!-- 글삭 -->
+	<delete id="delPost">
+		delete from bbsyuzuin where num = ${postNum}
+	</delete>
 
 </mapper>

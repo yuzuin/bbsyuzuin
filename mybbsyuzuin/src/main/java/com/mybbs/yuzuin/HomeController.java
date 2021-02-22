@@ -32,7 +32,7 @@ import com.mybbs.util.PageNumber;
 public class HomeController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
-	private postDAO postdao = new postDAO();
+//	private postDAO postdao = new postDAO();
 	private commentDAO codao = new commentDAO();
 	private memberDAO memdao = new memberDAO();
 	
@@ -92,7 +92,8 @@ public class HomeController {
 		if(request.getParameter("page")!=null) {	//	클라이언트가 클릭하면 파라미터 받음
 			nowPage=Integer.valueOf(request.getParameter("page"));
 		}
-		int pageTotal = postdao.allcount();	//	기존 dao 왜냐하면 현재 mybatis에는 select count(*) from ~ 가 없음 추후 추가
+		int pageTotal = bbsdao2.allCount();
+//		int pageTotal = postdao.allcount();	//	기존 dao 왜냐하면 현재 mybatis에는 select count(*) from ~ 가 없음 추후 추가
 		PageNumber pagemaker = new PageNumber();
 		pagemaker.setPage(nowPage);
 		pagemaker.setCount(pageTotal);
@@ -115,23 +116,23 @@ public class HomeController {
 	/* 글 삭제 */
 	@RequestMapping(value = "delPost", method = RequestMethod.GET)
 	public String deletePost(@RequestParam("delNum") int dnum) {
-		postdao.delPost(dnum);
+		bbsdao2.delPost(dnum);
 		return "redirect:list";
 	}
 	
 	/* 글 수정 클릭 */
 	@RequestMapping(value = "modPost", method = RequestMethod.GET)
 	public String modPostView(@RequestParam("modNum") int mnum,Model m) {
-		m.addAttribute("post",postdao.selectPost(mnum));
+		m.addAttribute("post",bbsdao2.selectOne(mnum));
 		return "mod";
 	}
 	
 	/* 글 수정 완료 버튼 클릭 */
 	@RequestMapping(value = "modPostOK", method = RequestMethod.GET)
 	public String modPostOK(postDTO post,Model m) {
-		postdao.modPost(post);
+		bbsdao2.modPost(post);
 		
-		m.addAttribute("post",postdao.selectPost(post.getNum()));
+		m.addAttribute("post",bbsdao2.selectOne(post.getNum()));
 		m.addAttribute("commentList",codao.allComment(post.getNum()));
 		return "viewPost";
 //		return "redirect:list";
@@ -142,7 +143,7 @@ public class HomeController {
 	public String writeComment(commentDTO dto,Model m) {
 		codao.insertComment(dto);
 		
-		m.addAttribute("post",postdao.selectPost(dto.getPostNum()));
+		m.addAttribute("post",bbsdao2.selectOne(dto.getPostNum()));
 		m.addAttribute("commentList",codao.allComment(dto.getPostNum()));
 		return "viewPost";
 //		return "redirect:list";
