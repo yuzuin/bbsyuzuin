@@ -62,4 +62,9 @@ public class BBSDAOImpl implements IF_BBSDAO{
 		sqlSession.update(mapperQuery+".modPost",postDTO);
 	}
 
+	@Override
+	public void insertComment(commentDTO c) {
+		sqlSession.insert(mapperQuery+".insertComment",c);
+	}
+
 }

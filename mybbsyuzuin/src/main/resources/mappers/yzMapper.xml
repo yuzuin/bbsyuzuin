@@ -21,10 +21,14 @@
 		insert into bbsyuzuin(name,password,title,content) 
 		values(#{name},#{password},#{title},#{content})
 	</insert>
-	<!-- 댓글 -->
+	<!-- 댓글 리스트-->
 	<select id="selectCommentAll" resultType="comment">
 		select * from bbsComment where postNum= #{postNum}
 	</select>
+	<!-- 댓글 달기 -->
+	<insert id="insertComment">
+		insert into bbsComment(name,password,content,postNum) values(#{name},#{password},#{content},#{postNum})
+	</insert>
 	
 	<!-- 글 수정 -->
 	<update id="modPost">	<!--update는 resultType을 못쓰나봄...?-->

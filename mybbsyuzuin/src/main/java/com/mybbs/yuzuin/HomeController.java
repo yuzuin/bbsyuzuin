@@ -33,7 +33,7 @@ public class HomeController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 //	private postDAO postdao = new postDAO();
-	private commentDAO codao = new commentDAO();
+//	private commentDAO codao = new commentDAO();
 	private memberDAO memdao = new memberDAO();
 	
 	@Inject
@@ -133,7 +133,7 @@ public class HomeController {
 		bbsdao2.modPost(post);
 		
 		m.addAttribute("post",bbsdao2.selectOne(post.getNum()));
-		m.addAttribute("commentList",codao.allComment(post.getNum()));
+		m.addAttribute("commentList",bbsdao2.selectCommentAll(post.getNum()));
 		return "viewPost";
 //		return "redirect:list";
 	}
@@ -141,10 +141,10 @@ public class HomeController {
 	/* 댓글 쓰기 */
 	@RequestMapping(value = "writeComment", method = RequestMethod.GET)
 	public String writeComment(commentDTO dto,Model m) {
-		codao.insertComment(dto);
+		bbsdao2.insertComment(dto);
 		
 		m.addAttribute("post",bbsdao2.selectOne(dto.getPostNum()));
-		m.addAttribute("commentList",codao.allComment(dto.getPostNum()));
+		m.addAttribute("commentList",bbsdao2.selectCommentAll(dto.getPostNum()));
 		return "viewPost";
 //		return "redirect:list";
 	}

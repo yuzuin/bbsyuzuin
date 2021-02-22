@@ -12,8 +12,10 @@ public interface IF_BBSDAO {
 	 * bbsMapper.xml에서 mapping을 해줄 것이다. */
 	public List<postDTO> selectAll(PageNumber pagenumber);
 	
-	//	코멘트
+	//	코멘트 리스트
 	public List<commentDTO> selectCommentAll(int postNum);
+	//	코멘트 인서트
+	public void insertComment(commentDTO c);
 	//	상세보기
 	public postDTO selectOne(int num);
 	//	글쓰기
