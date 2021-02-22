@@ -6,6 +6,7 @@ import javax.inject.Inject;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.mybbs.DTO.commentDTO;
 import com.mybbs.DTO.postDTO;
 import com.mybbs.util.PageNumber;
 
@@ -19,8 +20,30 @@ public class BBSDAOImpl implements IF_BBSDAO{
 	
 	@Override
 	public List<postDTO> selectAll(PageNumber pagenumber) {
-		// TODO Auto-generated method stub
 		return sqlSession.selectList(mapperQuery+".selectAll",pagenumber);
+	}
+
+	@Override
+	public List<commentDTO> selectCommentAll(int postNum) {
+		return sqlSession.selectList(mapperQuery+".selectCommentAll",postNum);
+	}
+
+	@Override
+	public postDTO selectOne(int num) {
+		return sqlSession.selectOne(mapperQuery+".selectOne",num);
+	}
+
+	@Override
+	public int insertPost(postDTO post) {
+		int ok = sqlSession.insert(mapperQuery+".insertPost",post);
+		System.out.println("인서트완");
+//		if(ok>0) {
+//			sqlSession.commit();
+//		}else {
+//			System.out.println("인서트실패");
+//			sqlSession.rollback();
+//		}
+		return ok;
 	}
 
 }

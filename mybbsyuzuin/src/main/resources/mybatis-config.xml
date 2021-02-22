@@ -7,6 +7,10 @@
         <typeAliases>
         	<!-- com.human.DTO.BBSDTO를 BBSDTO 라고 부르겠음. -->
             <typeAlias type="com.mybbs.DTO.postDTO" alias="postDTO"/>
+            <!-- memberDTO 설정. member라고 부르겠음. -->
+            <typeAlias type="com.mybbs.DTO.memberDTO" alias="member"/>
+            <!-- commentDTO -->
+            <typeAlias type="com.mybbs.DTO.commentDTO" alias="comment"/>
         </typeAliases>
         
     </configuration>

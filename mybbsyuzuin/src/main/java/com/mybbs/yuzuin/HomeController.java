@@ -75,7 +75,9 @@ public class HomeController {
 	/* 글쓰기 버튼 눌렀을시 */
 	@RequestMapping(value = "writePost", method = RequestMethod.GET)
 	public String writePost(HttpServletRequest h,Model m, postDTO dto) {
-		postdao.insertPost(dto);
+		if(bbsdao2.insertPost(dto)>0) {
+			System.out.println("ok리턴");
+		}
 		return "redirect:list";	//	리다이렉트로 
 	}
 	
@@ -105,8 +107,8 @@ public class HomeController {
 	/* 글 상세보기 + 댓글*/
 	@RequestMapping(value = "viewPost", method = RequestMethod.GET)
 	public String viewPost(@RequestParam("viewNum") int vnum,Model m) {
-		m.addAttribute("post",postdao.selectPost(vnum));
-		m.addAttribute("commentList",codao.allComment(vnum));
+		m.addAttribute("post",bbsdao2.selectOne(vnum));
+		m.addAttribute("commentList",bbsdao2.selectCommentAll(vnum));
 		return "viewPost";
 	}
 	
