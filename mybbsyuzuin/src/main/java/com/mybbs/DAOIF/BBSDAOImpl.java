@@ -73,4 +73,9 @@ public class BBSDAOImpl implements IF_BBSDAO{
 		return sqlSession.selectOne(mapperQuery+".login",m);
 	}
 
+	@Override
+	public void hits(int postNum) {
+		sqlSession.update(mapperQuery+".hits",postNum);
+	}
+
 }

@@ -24,6 +24,7 @@ public class BBSserviceImpl implements IF_BBSservice {
 	@Override
 	public postDTO viewBBS(int num) {
 		//bbsDAO cnt어쩌구..
+		hits(num);	//	조회수
 		return bbsdao2.selectOne(num);
 	}
 
@@ -65,6 +66,11 @@ public class BBSserviceImpl implements IF_BBSservice {
 	@Override
 	public memberDTO login(memberDTO memberdto) {
 		return bbsdao2.login(memberdto);
+	}
+
+	@Override
+	public void hits(int postNum) {
+		bbsdao2.hits(postNum);
 	}
 
 }

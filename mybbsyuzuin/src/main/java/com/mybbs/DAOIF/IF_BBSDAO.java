@@ -29,5 +29,7 @@ public interface IF_BBSDAO {
 	public void modPost(postDTO postDTO);
 	//	로그인
 	public memberDTO login(memberDTO m);
+	//	조회수
+	public void hits(int postNum);
 	
 }

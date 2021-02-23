@@ -19,4 +19,5 @@ public interface IF_BBSservice {
 	public void modPost(postDTO postdto);
 	public void insertComment(commentDTO commentdto);
 	public memberDTO login(memberDTO memberdto);
+	public void hits(int postNum);
 }
