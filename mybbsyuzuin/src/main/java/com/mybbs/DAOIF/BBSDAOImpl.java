@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.mybbs.DTO.commentDTO;
+import com.mybbs.DTO.memberDTO;
 import com.mybbs.DTO.postDTO;
 import com.mybbs.util.PageNumber;
 
@@ -65,6 +66,11 @@ public class BBSDAOImpl implements IF_BBSDAO{
 	@Override
 	public void insertComment(commentDTO c) {
 		sqlSession.insert(mapperQuery+".insertComment",c);
+	}
+
+	@Override
+	public memberDTO login(memberDTO m) {
+		return sqlSession.selectOne(mapperQuery+".login",m);
 	}
 
 }

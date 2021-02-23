@@ -16,13 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.mybbs.DAO.commentDAO;
-import com.mybbs.DAO.memberDAO;
-import com.mybbs.DAO.postDAO;
-import com.mybbs.DAOIF.IF_BBSDAO;
 import com.mybbs.DTO.commentDTO;
 import com.mybbs.DTO.memberDTO;
 import com.mybbs.DTO.postDTO;
+import com.mybbs.Service.IF_BBSservice;
 import com.mybbs.util.PageNumber;
 
 /**
@@ -34,15 +31,18 @@ public class HomeController {
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 //	private postDAO postdao = new postDAO();
 //	private commentDAO codao = new commentDAO();
-	private memberDAO memdao = new memberDAO();
+//	private memberDAO memdao = new memberDAO();
 	
-	@Inject
-	private IF_BBSDAO bbsdao2;  // 인터페이스는 객체를 만들 수 없다. 인터페이스를 구현 받은 객체만 생성이 가능. mybatis 에서는 인터페이스를
-    							// 한개의 클래스만 구성할 수 있다.
-    							// @Inject는 컨테이너에서 객체를 주입받는다. 그러므로 IF_BBSDAO 객체가 컨테이너에 있어야 한다.
-    							// root-context.xml을 수정해야 합니다.
-    							// <context:component-scan base-package="com.human.DAOIF"></context:component-scan>
+	/* service단에서 데이터베이스의 crud를 실행한다. 
+	 * 서비스댄의 객체를 주입받도록 변경 */
 	
+	@Inject	//	ioc 주입을 받기 위해서는 bean을 등록해야 한다. root-context.xml에 추가 (49번라인)
+	private IF_BBSservice bbsservice;
+	
+	
+//	@Inject
+//	private IF_BBSDAO bbsdao2;
+
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
 		logger.info("Welcome home! The client locale is {}.", locale);
@@ -108,7 +108,8 @@ public class HomeController {
 	/* 글 상세보기 + 댓글*/
 	@RequestMapping(value = "viewPost", method = RequestMethod.GET)
 	public String viewPost(@RequestParam("viewNum") int vnum,Model m) {
-		m.addAttribute("post",bbsdao2.selectOne(vnum));
+//		m.addAttribute("post",bbsdao2.selectOne(vnum));
+		m.addAttribute("post",bbsservice.viewBBS(vnum));	//	서비스단
 		m.addAttribute("commentList",bbsdao2.selectCommentAll(vnum));
 		return "viewPost";
 	}
@@ -158,8 +159,8 @@ public class HomeController {
 	/* 로그인 폼 제출 */
 	@RequestMapping(value = "enter", method = RequestMethod.GET)
 	public String goLogin(memberDTO dto, HttpServletRequest request) {
-		int ok = memdao.login(dto);
-		if(ok==1) {
+//		int ok = bbsdao2.login(dto);
+		if(bbsdao2.login(dto)!=null) {
 			//	세션 등록
 			HttpSession session = request.getSession();
 			session.setAttribute("userid", dto.getId()); //	세션에 "userid"로 id 넘겨줌

@@ -43,4 +43,10 @@
 		delete from bbsyuzuin where num = ${postNum}
 	</delete>
 
+	<!-- 로그인 폼 제출 -->
+	<!-- retunrn을 int 타입으로 하려고 하니 오류가 났던거 같음... -->
+	<select id="login" resultType="memberDTO">
+		select * from member where id=#{id} and password=#{password}
+	</select>
+	
 </mapper>

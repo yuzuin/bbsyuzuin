@@ -3,6 +3,7 @@ package com.mybbs.DAOIF;
 import java.util.List;
 
 import com.mybbs.DTO.commentDTO;
+import com.mybbs.DTO.memberDTO;
 import com.mybbs.DTO.postDTO;
 import com.mybbs.util.PageNumber;
 
@@ -26,5 +27,7 @@ public interface IF_BBSDAO {
 	public void delPost(int num);
 	//	글수정
 	public void modPost(postDTO postDTO);
+	//	로그인
+	public memberDTO login(memberDTO m);
 	
 }
