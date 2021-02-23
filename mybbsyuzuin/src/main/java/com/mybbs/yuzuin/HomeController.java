@@ -75,7 +75,7 @@ public class HomeController {
 	/* 글쓰기 버튼 눌렀을시 */
 	@RequestMapping(value = "writePost", method = RequestMethod.GET)
 	public String writePost(HttpServletRequest h,Model m, postDTO dto) {
-		if(bbsdao2.insertPost(dto)>0) {
+		if(bbsservice.insertPost(dto)>0) {
 			System.out.println("ok리턴");
 		}
 		return "redirect:list";	//	리다이렉트로 
@@ -92,7 +92,7 @@ public class HomeController {
 		if(request.getParameter("page")!=null) {	//	클라이언트가 클릭하면 파라미터 받음
 			nowPage=Integer.valueOf(request.getParameter("page"));
 		}
-		int pageTotal = bbsdao2.allCount();
+		int pageTotal = bbsservice.allCount();
 //		int pageTotal = postdao.allcount();	//	기존 dao 왜냐하면 현재 mybatis에는 select count(*) from ~ 가 없음 추후 추가
 		PageNumber pagemaker = new PageNumber();
 		pagemaker.setPage(nowPage);
@@ -100,7 +100,7 @@ public class HomeController {
 		
 		m.addAttribute("pageMaker",pagemaker);
 		m.addAttribute("nowUser",nowUser);
-		m.addAttribute("postList",bbsdao2.selectAll(pagemaker));
+		m.addAttribute("postList",bbsservice.selectAll(pagemaker));
 //		m.addAttribute("postList",postdao.allPost(pagemaker.getNowPageStart(),pagemaker.getPageCnt()));
 		return "list";
 	}
@@ -110,31 +110,31 @@ public class HomeController {
 	public String viewPost(@RequestParam("viewNum") int vnum,Model m) {
 //		m.addAttribute("post",bbsdao2.selectOne(vnum));
 		m.addAttribute("post",bbsservice.viewBBS(vnum));	//	서비스단
-		m.addAttribute("commentList",bbsdao2.selectCommentAll(vnum));
+		m.addAttribute("commentList",bbsservice.selectCommentAll(vnum));
 		return "viewPost";
 	}
 	
 	/* 글 삭제 */
 	@RequestMapping(value = "delPost", method = RequestMethod.GET)
 	public String deletePost(@RequestParam("delNum") int dnum) {
-		bbsdao2.delPost(dnum);
+		bbsservice.delPost(dnum);
 		return "redirect:list";
 	}
 	
 	/* 글 수정 클릭 */
 	@RequestMapping(value = "modPost", method = RequestMethod.GET)
 	public String modPostView(@RequestParam("modNum") int mnum,Model m) {
-		m.addAttribute("post",bbsdao2.selectOne(mnum));
+		m.addAttribute("post",bbsservice.viewBBS(mnum));
 		return "mod";
 	}
 	
 	/* 글 수정 완료 버튼 클릭 */
 	@RequestMapping(value = "modPostOK", method = RequestMethod.GET)
 	public String modPostOK(postDTO post,Model m) {
-		bbsdao2.modPost(post);
+		bbsservice.modPost(post);
 		
-		m.addAttribute("post",bbsdao2.selectOne(post.getNum()));
-		m.addAttribute("commentList",bbsdao2.selectCommentAll(post.getNum()));
+		m.addAttribute("post",bbsservice.viewBBS(post.getNum()));
+		m.addAttribute("commentList",bbsservice.selectCommentAll(post.getNum()));
 		return "viewPost";
 //		return "redirect:list";
 	}
@@ -142,10 +142,10 @@ public class HomeController {
 	/* 댓글 쓰기 */
 	@RequestMapping(value = "writeComment", method = RequestMethod.GET)
 	public String writeComment(commentDTO dto,Model m) {
-		bbsdao2.insertComment(dto);
+		bbsservice.insertComment(dto);
 		
-		m.addAttribute("post",bbsdao2.selectOne(dto.getPostNum()));
-		m.addAttribute("commentList",bbsdao2.selectCommentAll(dto.getPostNum()));
+		m.addAttribute("post",bbsservice.viewBBS(dto.getPostNum()));
+		m.addAttribute("commentList",bbsservice.selectCommentAll(dto.getPostNum()));
 		return "viewPost";
 //		return "redirect:list";
 	}
@@ -159,12 +159,12 @@ public class HomeController {
 	/* 로그인 폼 제출 */
 	@RequestMapping(value = "enter", method = RequestMethod.GET)
 	public String goLogin(memberDTO dto, HttpServletRequest request) {
-//		int ok = bbsdao2.login(dto);
-		if(bbsdao2.login(dto)!=null) {
+		memberDTO user = bbsservice.login(dto);
+		if(user!=null) {
 			//	세션 등록
 			HttpSession session = request.getSession();
 			session.setAttribute("userid", dto.getId()); //	세션에 "userid"로 id 넘겨줌
-			System.out.println(dto.getName()+"님 로그인 완료");
+			System.out.println(user.getName()+"님 로그인 완료");
 			return "redirect:list";
 		}else {
 			return "login";

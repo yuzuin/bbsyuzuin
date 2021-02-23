@@ -1,11 +1,13 @@
 package com.mybbs.Service;
 
+import java.util.List;
 import javax.inject.Inject;
-
 import org.springframework.stereotype.Service;
-
 import com.mybbs.DAOIF.IF_BBSDAO;
+import com.mybbs.DTO.commentDTO;
+import com.mybbs.DTO.memberDTO;
 import com.mybbs.DTO.postDTO;
+import com.mybbs.util.PageNumber;
 
 @Service	//	주입 받을 수 있게 Service단이라고 선언
 public class BBSserviceImpl implements IF_BBSservice {
@@ -23,6 +25,46 @@ public class BBSserviceImpl implements IF_BBSservice {
 	public postDTO viewBBS(int num) {
 		//bbsDAO cnt어쩌구..
 		return bbsdao2.selectOne(num);
+	}
+
+	@Override
+	public int insertPost(postDTO postdto) {
+		return bbsdao2.insertPost(postdto);
+	}
+
+	@Override
+	public int allCount() {
+		return bbsdao2.allCount();
+	}
+
+	@Override
+	public List<postDTO> selectAll(PageNumber pagenumber) {
+		return bbsdao2.selectAll(pagenumber);
+	}
+
+	@Override
+	public List<commentDTO> selectCommentAll(int num) {
+		return bbsdao2.selectCommentAll(num);
+	}
+
+	@Override
+	public void delPost(int num) {
+		bbsdao2.delPost(num);
+	}
+
+	@Override
+	public void modPost(postDTO postdto) {
+		bbsdao2.modPost(postdto);
+	}
+
+	@Override
+	public void insertComment(commentDTO commentdto) {
+		bbsdao2.insertComment(commentdto);
+	}
+
+	@Override
+	public memberDTO login(memberDTO memberdto) {
+		return bbsdao2.login(memberdto);
 	}
 
 }
