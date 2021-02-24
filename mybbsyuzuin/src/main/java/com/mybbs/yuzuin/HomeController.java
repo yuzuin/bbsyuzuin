@@ -1,6 +1,7 @@
 package com.mybbs.yuzuin;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.mybbs.DTO.commentDTO;
+import com.mybbs.DTO.imgDTO;
 import com.mybbs.DTO.memberDTO;
 import com.mybbs.DTO.postDTO;
 import com.mybbs.Service.IF_BBSservice;
@@ -86,19 +88,34 @@ public class HomeController {
 	
 	/* 글쓰기 버튼 (첨부파일 있음) */
 	@RequestMapping(value = "writePost_pro", method = RequestMethod.POST)
-	public String writePost_pro(postDTO dto, MultipartFile file) throws Exception{	//	클라이언트가 전송한 파일의 정보
-		if(file.getOriginalFilename()=="") {
+	public String writePost_pro(postDTO dto, MultipartFile[] file) throws Exception{	//	클라이언트가 전송한 파일의 정보
+		ArrayList<String[]> fileList = null;
+		if(file[0].getOriginalFilename()=="") {
 			System.out.println("첨부파일 없음");
 		}else {
+			fileList = new ArrayList<>();
+			for(int i=0;i<file.length;i++) {
+				fileList.add(filedataUtil.fileUpload(file[i]));
+			}
 //			System.out.println(file.getOriginalFilename());
-			String[] files = filedataUtil.fileUpload(file);	//	실제 저장될 파일명
-			System.out.println(files[0]+" 업로드 완료");		//	실제 디렉토리에 파일이 업로드, 파일명 변경됨
+//			String[] files = filedataUtil.fileUpload(file[0]);	//	실제 저장될 파일명
+//			String[] files2 = filedataUtil.fileUpload(file[1]);//	실제 디렉토리에 파일이 업로드, 파일명 변경됨
+			System.out.println(file.length+" 멀티플 크기");
 			
 			//	db에 저장해야함
-			dto.setFname(files[0]);
+//			dto.setFname(files[0]);
 		}
 		
 		if(bbsservice.insertPost(dto)>0) {
+			imgDTO img = new imgDTO();
+			for(int i=0;i<fileList.size();i++) {
+				img.setPostId(dto.getName());	//	아이디
+				img.setPostNum(bbsservice.lastPostNum());	//	현재글번호
+				img.setImg(fileList.get(i)[0]);
+				System.out.println("이미지정보 " +img.getImg()+" "+img.getPostNum());
+				bbsservice.insertImg(img);
+			}
+			
 			System.out.println("writePost_pro 글쓰기 완료");
 		}
 		return "redirect:list";	//	리다이렉트로 
@@ -135,6 +152,8 @@ public class HomeController {
 //		m.addAttribute("post",bbsdao2.selectOne(vnum));
 		m.addAttribute("post",bbsservice.viewBBS(vnum));	//	서비스단
 		m.addAttribute("commentList",bbsservice.selectCommentAll(vnum));
+		m.addAttribute("images",bbsservice.imagesView(vnum));
+		
 		return "viewPost";
 	}
 	

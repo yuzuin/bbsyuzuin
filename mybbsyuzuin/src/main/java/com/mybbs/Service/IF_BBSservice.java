@@ -3,6 +3,7 @@ package com.mybbs.Service;
 import java.util.List;
 
 import com.mybbs.DTO.commentDTO;
+import com.mybbs.DTO.imgDTO;
 import com.mybbs.DTO.memberDTO;
 import com.mybbs.DTO.postDTO;
 import com.mybbs.util.PageNumber;
@@ -20,4 +21,7 @@ public interface IF_BBSservice {
 	public void insertComment(commentDTO commentdto);
 	public memberDTO login(memberDTO memberdto);
 	public void hits(int postNum);
+	public int lastPostNum();
+	public void insertImg(imgDTO dto);
+	public List<imgDTO> imagesView(int postNum);
 }

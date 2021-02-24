@@ -11,6 +11,8 @@
             <typeAlias type="com.mybbs.DTO.memberDTO" alias="memberDTO"/>
             <!-- commentDTO -->
             <typeAlias type="com.mybbs.DTO.commentDTO" alias="comment"/>
+            <!-- imgDTO -->
+            <typeAlias type="com.mybbs.DTO.imgDTO" alias="imgDTO"/>
         </typeAliases>
         
     </configuration>

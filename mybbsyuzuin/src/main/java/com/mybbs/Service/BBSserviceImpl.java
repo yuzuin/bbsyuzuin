@@ -5,6 +5,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 import com.mybbs.DAOIF.IF_BBSDAO;
 import com.mybbs.DTO.commentDTO;
+import com.mybbs.DTO.imgDTO;
 import com.mybbs.DTO.memberDTO;
 import com.mybbs.DTO.postDTO;
 import com.mybbs.util.PageNumber;
@@ -72,6 +73,21 @@ public class BBSserviceImpl implements IF_BBSservice {
 	@Override
 	public void hits(int postNum) {
 		bbsdao2.hits(postNum);
+	}
+
+	@Override
+	public int lastPostNum() {
+		return bbsdao2.lastPostNum();
+	}
+
+	@Override
+	public void insertImg(imgDTO dto) {
+		bbsdao2.insertImg(dto);
+	}
+
+	@Override
+	public List<imgDTO> imagesView(int postNum) {
+		return bbsdao2.imagesView(postNum);
 	}
 
 }

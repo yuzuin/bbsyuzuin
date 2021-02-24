@@ -1,12 +1,14 @@
 package com.mybbs.DAOIF;
 
-import java.util.ArrayList;
 import java.util.List;
+
 import javax.inject.Inject;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.mybbs.DTO.commentDTO;
+import com.mybbs.DTO.imgDTO;
 import com.mybbs.DTO.memberDTO;
 import com.mybbs.DTO.postDTO;
 import com.mybbs.util.PageNumber;
@@ -76,6 +78,21 @@ public class BBSDAOImpl implements IF_BBSDAO{
 	@Override
 	public void hits(int postNum) {
 		sqlSession.update(mapperQuery+".hits",postNum);
+	}
+
+	@Override
+	public int lastPostNum() {
+		return sqlSession.selectOne(mapperQuery+".lastPostNum");
+	}
+
+	@Override
+	public void insertImg(imgDTO dto) {
+		sqlSession.insert(mapperQuery+".insertImg",dto);
+	}
+
+	@Override
+	public List<imgDTO> imagesView(int postNum) {
+		return sqlSession.selectList(mapperQuery+".imagesView",postNum);
 	}
 
 }

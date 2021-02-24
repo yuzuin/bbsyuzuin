@@ -3,6 +3,7 @@ package com.mybbs.DAOIF;
 import java.util.List;
 
 import com.mybbs.DTO.commentDTO;
+import com.mybbs.DTO.imgDTO;
 import com.mybbs.DTO.memberDTO;
 import com.mybbs.DTO.postDTO;
 import com.mybbs.util.PageNumber;
@@ -31,5 +32,11 @@ public interface IF_BBSDAO {
 	public memberDTO login(memberDTO m);
 	//	조회수
 	public void hits(int postNum);
+	//	마지막 글 번호
+	public int lastPostNum();
+	//	이미지인서트
+	public void insertImg(imgDTO dto);
+	//	이미지 가져오기
+	public List<imgDTO> imagesView(int postNum);
 	
 }

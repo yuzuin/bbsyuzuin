@@ -19,6 +19,8 @@
 	<link rel="stylesheet"
 		href="${pageContext.request.contextPath}/resources/assets/css/noscript.css" />
 </noscript>
+
+
 </head>
 <body class="is-preload">
 
@@ -29,8 +31,8 @@
 		<nav id="nav">
 			<a href="list" class="icon solid fa-home"><span>List</span></a> <a
 				href="login" class="icon solid fa-folder"><span>Login</span></a> <a
-				href="write" class="icon solid fa-envelope"><span>Write</span></a>
-			<a href="https://twitter.com/ajlkn" class="icon brands fa-twitter"><span>Twitter</span></a>
+				href="write" class="icon solid fa-envelope"><span>Write</span></a> <a
+				href="https://twitter.com/ajlkn" class="icon brands fa-twitter"><span>Twitter</span></a>
 		</nav>
 
 		<!-- Main -->
@@ -47,26 +49,32 @@
 				</p>
 				<section>
 					<!-- 글 내용 -->
-					<img src="${pageContext.request.contextPath}/download?filename=${post.fname }">
+					<c:forEach var="imsi" items="${images }">
+					<img
+						src="${pageContext.request.contextPath}/download?filename=${imsi.img }" width="800">
+					
+					</c:forEach>
+					
+					<br><br>
 					${post.content}
 				</section>
 				<section>
 					<!-- 첨부파일 -->
-					 첨부파일
-               <a href="${pageContext.request.contextPath}/download?filename=${post.fname }">{다운로드}</a>
+					첨부파일 <a
+						href="${pageContext.request.contextPath}/download?filename=${post.fname }">{다운로드}</a>
 				</section>
 
 				<!-- 댓글쓰기 -->
 				<form action="writeComment" method="get">
-				<input type="hidden" name="postNum" value="${post.num }"/>
-				<div class="col-6 col-12-medium">
-					<input type="text" name="name" placeholder="닉네임" />
-					<input type="text" name="password" placeholder="비번" />
-				</div>
-				<div class="col-6 col-12-medium">
-					<input type="text" name="content" placeholder="댓글" />
-				</div>
-				<input type="submit" value="댓글쓰기" />
+					<input type="hidden" name="postNum" value="${post.num }" />
+					<div class="col-6 col-12-medium">
+						<input type="text" name="name" placeholder="닉네임" /> <input
+							type="text" name="password" placeholder="비번" />
+					</div>
+					<div class="col-6 col-12-medium">
+						<input type="text" name="content" placeholder="댓글" />
+					</div>
+					<input type="submit" value="댓글쓰기" />
 				</form>
 				<!-- 댓글 -->
 				<h3>댓글</h3>
@@ -147,15 +155,15 @@
 						</tr>
 					</thead>
 					<tbody>
-					<!-- 댓글 테이블 반복 -->
-					<c:forEach var="temp" items="${commentList }">
-						<tr>
-							<td class="tg-7eit"><c:out value="${temp.name }"/></td>
-							<td class="tg-8n49"><c:out value="${temp.content }"/></td>
-							<td class="tg-7eit"><c:out value="${temp.writeDate }"/></td>
-							<td class="tg-7eit">수정</td>
-							<td class="tg-7eit">삭제</td>
-						</tr>
+						<!-- 댓글 테이블 반복 -->
+						<c:forEach var="temp" items="${commentList }">
+							<tr>
+								<td class="tg-7eit"><c:out value="${temp.name }" /></td>
+								<td class="tg-8n49"><c:out value="${temp.content }" /></td>
+								<td class="tg-7eit"><c:out value="${temp.writeDate }" /></td>
+								<td class="tg-7eit">수정</td>
+								<td class="tg-7eit">삭제</td>
+							</tr>
 						</c:forEach>
 					</tbody>
 				</table>
