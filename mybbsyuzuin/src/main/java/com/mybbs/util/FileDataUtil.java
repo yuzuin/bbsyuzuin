@@ -65,10 +65,10 @@ public class FileDataUtil {
 		UUID uid = UUID.randomUUID();//랜덤문자 구하기
 		String saveName = uid.toString() + "." + originalName.split("\\.")[1];//한글 파일명 처리 때문에... 랜덤문자 후 확장자 붙히기
 		String[] files = new String[] {saveName};//형변환
-		byte[] fileData = file.getBytes();
-		File target = new File(uploadPath, saveName);
-		FileCopyUtils.copy(fileData, target);
-		return files;
+		byte[] fileData = file.getBytes();	//	tcp 바이트 변환같은거
+		File target = new File(uploadPath, saveName);	//	자바 jvm(램)에서 하드디스크에 있는 파일을 연결하는 객체, 파일객체의 위치 만들기
+		FileCopyUtils.copy(fileData, target);	//	내용을 전송해라
+		return files;	//	실제 저장될 파일명
 	}
 
 	public ArrayList<String> getExtNameArray() {

@@ -21,6 +21,7 @@ import com.mybbs.DTO.commentDTO;
 import com.mybbs.DTO.memberDTO;
 import com.mybbs.DTO.postDTO;
 import com.mybbs.Service.IF_BBSservice;
+import com.mybbs.util.FileDataUtil;
 import com.mybbs.util.PageNumber;
 
 /**
@@ -39,7 +40,8 @@ public class HomeController {
 	
 	@Inject	//	ioc 주입을 받기 위해서는 bean을 등록해야 한다. root-context.xml에 추가 (49번라인)
 	private IF_BBSservice bbsservice;
-	
+	@Inject
+	private FileDataUtil filedataUtil;
 	
 //	@Inject
 //	private IF_BBSDAO bbsdao2;
@@ -84,12 +86,15 @@ public class HomeController {
 	
 	/* 글쓰기 버튼 (첨부파일 있음) */
 	@RequestMapping(value = "writePost_pro", method = RequestMethod.POST)
-	public String writePost_pro(postDTO dto, MultipartFile file) {	//	클라이언트가 전송한 파일의 정보
+	public String writePost_pro(postDTO dto, MultipartFile file) throws Exception{	//	클라이언트가 전송한 파일의 정보
 		if(file.getOriginalFilename()=="") {
 			System.out.println("첨부파일 없음");
 		}else {
-			System.out.println(file.getOriginalFilename());
+//			System.out.println(file.getOriginalFilename());
+			String[] files = filedataUtil.fileUpload(file);	//	실제 저장될 파일명
+			System.out.println(files[0]+" 업로드 완료");
 		}
+		
 		if(bbsservice.insertPost(dto)>0) {
 			System.out.println("writePost_pro 글쓰기 완료");
 		}
