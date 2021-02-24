@@ -61,6 +61,7 @@ public class BBSserviceImpl implements IF_BBSservice {
 	@Override
 	public void insertComment(commentDTO commentdto) {
 		bbsdao2.insertComment(commentdto);
+		
 	}
 
 	@Override

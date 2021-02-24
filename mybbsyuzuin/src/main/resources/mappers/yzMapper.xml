@@ -18,9 +18,10 @@
 	
 	<!-- 글쓰기 -->
 	<insert id="insertPost">
-		insert into bbsyuzuin(name,password,title,content) 
-		values(#{name},#{password},#{title},#{content})
+		insert into bbsyuzuin(name,password,title,content,fname) 
+		values(#{name},#{password},#{title},#{content},#{fname})
 	</insert>
+	
 	<!-- 조회수 -->
 	<update id="hits">
 		update bbsyuzuin set hits=hits+1 where num=#{num}

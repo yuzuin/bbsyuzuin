@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.mybbs.DTO.commentDTO;
 import com.mybbs.DTO.memberDTO;
@@ -80,6 +81,21 @@ public class HomeController {
 		}
 		return "redirect:list";	//	리다이렉트로 
 	}
+	
+	/* 글쓰기 버튼 (첨부파일 있음) */
+	@RequestMapping(value = "writePost_pro", method = RequestMethod.POST)
+	public String writePost_pro(postDTO dto, MultipartFile file) {	//	클라이언트가 전송한 파일의 정보
+		if(file.getOriginalFilename()=="") {
+			System.out.println("첨부파일 없음");
+		}else {
+			System.out.println(file.getOriginalFilename());
+		}
+		if(bbsservice.insertPost(dto)>0) {
+			System.out.println("writePost_pro 글쓰기 완료");
+		}
+		return "redirect:list";	//	리다이렉트로 
+	}
+	
 	
 	/* 글 리스트 보기 + 페이징*/
 	@RequestMapping(value = "list", method = RequestMethod.GET)
