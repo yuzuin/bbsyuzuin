@@ -47,7 +47,13 @@
 				</p>
 				<section>
 					<!-- 글 내용 -->
+					<img src="${pageContext.request.contextPath}/download?filename=${post.fname }">
 					${post.content}
+				</section>
+				<section>
+					<!-- 첨부파일 -->
+					 첨부파일
+               <a href="${pageContext.request.contextPath}/download?filename=${post.fname }">{다운로드}</a>
 				</section>
 
 				<!-- 댓글쓰기 -->

@@ -92,7 +92,10 @@ public class HomeController {
 		}else {
 //			System.out.println(file.getOriginalFilename());
 			String[] files = filedataUtil.fileUpload(file);	//	실제 저장될 파일명
-			System.out.println(files[0]+" 업로드 완료");
+			System.out.println(files[0]+" 업로드 완료");		//	실제 디렉토리에 파일이 업로드, 파일명 변경됨
+			
+			//	db에 저장해야함
+			dto.setFname(files[0]);
 		}
 		
 		if(bbsservice.insertPost(dto)>0) {
