@@ -68,13 +68,14 @@ public class HomeController {
 		//로그인 검사
 		HttpSession session = request.getSession();
 		String nowUser = (String)session.getAttribute("userid");
-		if(nowUser!=null) {
-			System.out.println("나우유저 !=널");
-			return "write";
-		}else {
-			System.out.println("나우유저 널");
-			return "redirect:login";
-		}
+		return "write";
+//		if(nowUser!=null) {
+//			System.out.println("나우유저 !=널");
+//			return "write";
+//		}else {
+//			System.out.println("나우유저 널");
+//			return "redirect:login";
+//		}
 	}
 	
 	/* 글쓰기 버튼 눌렀을시 */
