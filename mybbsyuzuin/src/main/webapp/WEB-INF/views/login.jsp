@@ -15,12 +15,46 @@
 <meta charset="utf-8" />
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, user-scalable=no" />
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/assets/css/main.css" />
 <noscript>
 	<link rel="stylesheet"
 		href="${pageContext.request.contextPath}/resources/assets/css/noscript.css" />
 </noscript>
+<script type="text/javascript">
+	function idduchk() { //	실행 시점이 클라이언트가 이벤트 핸들러를 발생하여 호출했을 경우
+		//	alert("아이디 더블 체크");
+		var inputObj = document.getElementById('uidinput'); //객체를 통째로 가지고옴
+		var inputmsg = document.getElementById('uidinput').value; //	input의 id, String을 가지고옴 inputObj.value도 가능
+
+		//	비동기 통신으로 서버에 inputmsg를 보내고 success가 되면 ineerHTML로 동적으로 바꿔 주는 것
+		var outputObj = document.getElementById('idinfo'); //	표시할 곳 id
+		outputObj.innerHTML = "<font color=red>입력한 ID: </font>" + inputmsg; //	동적인 제어
+
+	}
+	$(function() {
+//		$('#idcheckbtn').click(function() {
+//			var inputid = $('#uidinput').val();
+//			// $('#idinfo').html("입력한 ID : " + inputid);
+//			$('#idinfo').html("입력한 ID : " + inputid).addClass('idchk').css('border','1px solid black');
+//		});
+
+/* 엔터쳐서 표시 */
+		$('#uidinput').on("change",function() {
+			var inputid = $('#uidinput').val();
+			// $('#idinfo').html("입력한 ID : " + inputid);
+			$('#idinfo').html("입력한 ID : " + inputid).addClass('idchk').css('border','1px solid black');
+		});
+	});
+</script>
+<style>
+	.idchk{
+		color:blue;
+		background-color:red;
+	}
+</style>
 </head>
 <body class="is-preload">
 
@@ -31,22 +65,41 @@
 		<nav id="nav">
 			<a href="list" class="icon solid fa-home"><span>List</span></a> <a
 				href="login" class="icon solid fa-folder"><span>Login</span></a> <a
-				href="write" class="icon solid fa-envelope"><span>Write</span></a>
-			<a href="https://twitter.com/ajlkn" class="icon brands fa-twitter"><span>Twitter</span></a>
+				href="write" class="icon solid fa-envelope"><span>Write</span></a> <a
+				href="https://twitter.com/ajlkn" class="icon brands fa-twitter"><span>Twitter</span></a>
 		</nav>
 
 		<!-- Main -->
 		<div id="main">
-		<!--  로그인 폼 -->
-		<h3>글을 쓰려면 로그인 하세요</h3>
-		<div class="button-wrap">
-                <form id="login" action="enter" class="input-group">
-                    <input type="text" class="input-field" placeholder="User ID" name="id" required>
-                    <input type="password" class="input-field" placeholder="Enter Password" name="password" required>
-                    <!--  <input type="checkbox" class="checkbox"><span>Remember Password</span>-->
-                    <button class="submit">Login</button>
-                </form>
-                <!--  회원가입폼
+			<!--  로그인 폼 -->
+			<h3>글을 쓰려면 로그인 하세요</h3>
+			<div class="button-wrap">
+				<form id="login" action="enter" class="input-group">
+					<!-- id와 class를 지정한 이유는 js나 css에서 선택하기 위함 -->
+					<input type="text" class="input-field" placeholder="User ID"
+						name="id" id="uidinput" required>
+					<!-- javascript
+                   		도대체 이놈은 언제 동작 하는건가?
+                   		1. 문서 자체가 로드할 때, 로딩 후 화면에 출력, 로딩 전에 구동 하는 것
+                   		2. 요청을 할 때, 버튼을 눌렀거나,	- 이벤트 핸들러가 발생했을 경우 함수가 호출된다.  ex) onclick
+                   		
+                   		-->
+
+					<!--<input type="button" value="중복체크" onclick='alert("누름")'>
+					<input type="button" value="중복체크" onclick='idduchk()'>-->
+
+					<!-- jquery -->
+					<input type="button" value="중복체크" id="idcheckbtn">
+					<h4 id="idinfo">**</h4>
+
+
+
+					<input type="password" class="input-field"
+						placeholder="Enter Password" name="password" required>
+					<!--  <input type="checkbox" class="checkbox"><span>Remember Password</span>-->
+					<button class="submit">Login</button>
+				</form>
+				<!--  회원가입폼
                 <form id="register" action="registerData" method=get class="input-group">
                     <input type="text" class="input-field" placeholder="id" required name="uid">
                     <input type="email" class="input-field" placeholder="Your Email" required name="uemail">
@@ -54,26 +107,25 @@
                     <input type="checkbox" class="checkbox"><span>Terms and conditions</span>
                     <button class="submit">REGISTER</button>
                 </form> -->
-            </div>
+			</div>
 		</div>
 		<script>
-            var x = document.getElementById("login");
-            var y = document.getElementById("register");
-            var z = document.getElementById("btn");
-            
-            
-            function login(){
-                x.style.left = "50px";
-                y.style.left = "450px";
-                z.style.left = "0";
-            }
+			var x = document.getElementById("login");
+			var y = document.getElementById("register");
+			var z = document.getElementById("btn");
 
-            function register(){
-                x.style.left = "-400px";
-                y.style.left = "50px";
-                z.style.left = "110px";
-            }
-        </script>
+			function login() {
+				x.style.left = "50px";
+				y.style.left = "450px";
+				z.style.left = "0";
+			}
+
+			function register() {
+				x.style.left = "-400px";
+				y.style.left = "50px";
+				z.style.left = "110px";
+			}
+		</script>
 
 		<!-- Footer -->
 		<div id="footer">
