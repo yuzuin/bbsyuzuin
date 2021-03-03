@@ -69,12 +69,6 @@ public class HomeController {
 		HttpSession session = request.getSession();
 		String nowUser = (String)session.getAttribute("userid");
 		return "write";
-//		if(nowUser!=null) {
-//			System.out.println("나우유저 !=널");
-//			return "write";
-//		}else {
-//			System.out.println("나우유저 널");
-//			return "redirect:login";
 //		}
 	}
 	
@@ -90,36 +84,30 @@ public class HomeController {
 	/* 글쓰기 버튼 (첨부파일 있음) */
 	@RequestMapping(value = "writePost_pro", method = RequestMethod.POST)
 	public String writePost_pro(postDTO dto, MultipartFile[] file) throws Exception{	//	클라이언트가 전송한 파일의 정보
-		ArrayList<String[]> fileList = null;
+											//	MultipartFile을 배열로 선언한다
+		ArrayList<String[]> fileList = null;	//	file이 들어갈 리스트
 		if(file[0].getOriginalFilename()=="") {
 			System.out.println("첨부파일 없음");
 		}else {
 			fileList = new ArrayList<>();
-			for(int i=0;i<file.length;i++) {
-				fileList.add(filedataUtil.fileUpload(file[i]));
+			for(int i=0;i<file.length;i++) {	//	파일은 몇개? 그동안
+				fileList.add(filedataUtil.fileUpload(file[i]));	//	파일리스트에 파일(제목)들을 담아줌
 			}
-//			System.out.println(file.getOriginalFilename());
-//			String[] files = filedataUtil.fileUpload(file[0]);	//	실제 저장될 파일명
-//			String[] files2 = filedataUtil.fileUpload(file[1]);//	실제 디렉토리에 파일이 업로드, 파일명 변경됨
-			System.out.println(file.length+" 멀티플 크기");
-			
-			//	db에 저장해야함
-//			dto.setFname(files[0]);
 		}
 		
-		if(bbsservice.insertPost(dto)>0) {
+		if(bbsservice.insertPost(dto)>0) {	//	포스트를 쓰는 데 성공하면
 			imgDTO img = new imgDTO();
 			for(int i=0;i<fileList.size();i++) {
 				img.setPostId(dto.getName());	//	아이디
 				img.setPostNum(bbsservice.lastPostNum());	//	현재글번호
 				img.setImg(fileList.get(i)[0]);
 				System.out.println("이미지정보 " +img.getImg()+" "+img.getPostNum());
-				bbsservice.insertImg(img);
+				bbsservice.insertImg(img);	//	mybatis로 이미지 테이블에 파일 정보 넣기 
 			}
 			
 			System.out.println("writePost_pro 글쓰기 완료");
 		}
-		return "redirect:list";	//	리다이렉트로 
+		return "redirect:list";
 	}
 	
 	
@@ -221,5 +209,11 @@ public class HomeController {
 		HttpSession session = request.getSession();
 		session.invalidate();	//	현재 쿠키값으로 설정되어있는 모든 세션 비움
 		return "login";
+	}
+	
+	/* 회원가입 폼 */
+	@RequestMapping(value = "join", method = RequestMethod.GET)
+	public String joinForm() {
+		return "join";
 	}
 }

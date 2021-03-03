@@ -40,6 +40,7 @@
 			<exclude-mapping path="/logout*" />
 			<exclude-mapping path="/list*" />
 			<exclude-mapping path="/enter*" />
+			<exclude-mapping path="/join*" />
 			<!-- <mapping path="/bbs/**"/> <mapping path="/login/**"/> <mapping path="/board/modify"/> 
 				<mapping path="/board/delete"/> -->
 			<beans:ref bean="authenticationInterceptor" />

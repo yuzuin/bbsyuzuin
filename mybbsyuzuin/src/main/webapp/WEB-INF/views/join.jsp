@@ -71,33 +71,16 @@
 
 		<!-- Main -->
 		<div id="main">
-			<!--  로그인 폼 -->
-			<h3>글을 쓰려면 로그인 하세요</h3>
 			<div class="button-wrap">
-				<form id="login" action="enter" class="input-group">
-					<!-- id와 class를 지정한 이유는 js나 css에서 선택하기 위함 -->
-					<input type="text" class="input-field" placeholder="User ID"
-						name="id" id="uidinput" required>
-					<!-- javascript
-                   		도대체 이놈은 언제 동작 하는건가?
-                   		1. 문서 자체가 로드할 때, 로딩 후 화면에 출력, 로딩 전에 구동 하는 것
-                   		2. 요청을 할 때, 버튼을 눌렀거나,	- 이벤트 핸들러가 발생했을 경우 함수가 호출된다.  ex) onclick
-                   		-->
-
-					<!--<input type="button" value="중복체크" onclick='alert("누름")'>
-					<input type="button" value="중복체크" onclick='idduchk()'>-->
-
-					<!-- jquery -->
-					<button class="submit" id="idcheckbtn">중복체크</button>
-					<h4 id="idinfo">**</h4>
-
-
-
-					<input type="password" class="input-field"
-						placeholder="Enter Password" name="password" required>
-					<!--  <input type="checkbox" class="checkbox"><span>Remember Password</span>-->
-					<button class="submit">Login</button>
-				</form>
+				<!-- 회원가입폼 -->
+				회원가입
+                <form id="register" action="register" method=get class="input-group">
+                    <input type="text" class="input-field" placeholder="id" required name="uid">
+                    <input type="email" class="input-field" placeholder="Your Email" required name="uemail">
+                    <input type="password" class="input-field" placeholder="Enter Password" required name="upwd">
+                    <input type="checkbox" class="checkbox"><span>Terms and conditions</span>
+                    <button class="submit">REGISTER</button>
+                </form>
 			</div>
 		</div>
 		<script>
